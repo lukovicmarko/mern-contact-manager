@@ -17,14 +17,13 @@ const auth = require('./routes/auth');
 const contacts = require('./routes/contacts');
 const users = require('./routes/users');
 
-
 app.use('/api/auth', auth);
 app.use('/api/contacts', contacts);
 app.use('/api/users', users);
 
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production') {
-    // Set static folder
+
     app.use(express.static('client/build'));
 
     app.get('*', (req, res) => {
