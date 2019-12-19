@@ -36,6 +36,10 @@ router.post('/', [auth, [
         const { name, email, phone, type } = req.body;
 
         try {
+            let contact = await Contact.findOne({ email });
+            if (contact) {
+                return res.status(400).json({ errors: [{ msg: 'Contact already exists' }] });
+            }
             const newContact = new Contact({
                 name,
                 email,
@@ -43,7 +47,7 @@ router.post('/', [auth, [
                 type,
                 user: req.user.id
             });
-            const contact = await newContact.save();
+            contact = await newContact.save();
             res.json(contact);
         } catch (err) {
             console.error(err.message);
